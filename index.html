@@ -278,15 +278,38 @@
         <div class="contact-note"><span>01</span><div><b>Direct communication</b><small>No agency maze.</small></div></div>
         <div class="contact-note"><span>02</span><div><b>Honest scope</b><small>No fake guarantees.</small></div></div>
       </div>
-      <form class="contact-form reveal delay-1" id="contactForm">
-        <div class="form-row"><label>Name<input name="name" type="text" required placeholder="Your name"></label><label>Email<input name="email" type="email" required placeholder="you@example.com"></label></div>
-        <div class="form-row"><label>Business name<input name="business" type="text" placeholder="Your business"></label><label>Website <small>(optional)</small><input name="website" type="url" placeholder="https://"></label></div>
-        <div class="form-row"><label>Project type<select name="type"><option>Landing page</option><option>Small business website</option><option>Business + interactive features</option><option>Custom website</option></select></label><label>Budget<select name="budget"><option>₹10,000–₹20,000</option><option>₹20,000–₹30,000</option><option>₹30,000+</option><option>Not sure yet</option></select></label></div>
-        <label>Project description<textarea name="description" required rows="6" placeholder="What does your business need?"></textarea></label>
-        <button class="button button-primary" type="submit">Prepare Quote Request <span>↗</span></button>
-        <p class="form-status" id="formStatus" role="status"></p>
-        <small class="form-disclaimer">This frontend form does not pretend to send anything. Connect it to your preferred form/backend service before production.</small>
-      </form>
+       <form class="contact-form reveal delay-1" id="quoteForm">
+  <div class="form-row">
+    <label>Name<input id="name" name="name" type="text" required placeholder="Your name"></label>
+    <label>Email<input id="email" name="email" type="email" required placeholder="you@example.com"></label>
+  </div>
+  <div class="form-row">
+    <label>Business name<input id="business" name="business" type="text" placeholder="Your business"></label>
+    <label>Website <small>(optional)</small><input id="website" name="website" type="url" placeholder="https://"></label>
+  </div>
+  <div class="form-row">
+    <label>Project type
+      <select id="type" name="type">
+        <option>Landing page</option>
+        <option>Small business website</option>
+        <option>Business + interactive features</option>
+        <option>Custom website</option>
+      </select>
+    </label>
+    <label>Budget
+      <select id="budget" name="budget">
+        <option>₹10,000–₹20,000</option>
+        <option>₹20,000–₹30,000</option>
+        <option>₹30,000+</option>
+        <option>Not sure yet</option>
+      </select>
+    </label>
+  </div>
+  <label>Project description<textarea id="description" name="description" required rows="6" placeholder="What does your business need?"></textarea></label>
+  <button class="button button-primary" type="submit">Prepare Quote Request <span>↗</span></button>
+  <p class="form-status" id="formStatus" role="status"></p>
+</form>
+
     </section>
 
     <section class="final-cta section reveal">
@@ -301,5 +324,6 @@
   </footer>
 
   <script src="script.js"></script>
+  <script type="module" src="firebase.js"></script>
 </body>
 </html>
