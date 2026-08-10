@@ -40,14 +40,24 @@ if (form) {
     };
 
     try {
-      // Export (Write-only) to Firestore "quotes" collection
-      await addDoc(collection(db, "quotes"), formData);
-      if (statusElement) statusElement.textContent = "Quote request submitted successfully!";
-      form.reset();
-    } catch (error) {
-      console.error("Error submitting form: ", error);
-      if (statusElement) statusElement.textContent = "Failed to submit. Please try again.";
-    }
+  // Export (Write-only) to Firestore "quotes" collection
+  await addDoc(collection(db, "quotes"), formData);
+
+  // Send to Make.com Webhook for Google Sheets
+  fetch("https://hook.eu1.make.com/0g4iiwk46w12vypb2kio3edw2jczr3mi", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      ...formData,
+      createdAt: new Date().toISOString() // Provides a readable date string for Google Sheets
+    })
+  }).catch(err => console.error("Webhook error:", err));
+
+  if (statusElement) statusElement.textContent = "Quote request submitted successfully";
+  form.reset();
+} catch (error) {
+  console.error("Error submitting form: ", error);
+}
   });
 }
 
