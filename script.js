@@ -379,7 +379,7 @@ faqItems.forEach((item) => {
    CONTACT FORM
    ========================================================= */
 
-const contactForm =
+/*const contactForm =
   document.querySelector("#contactForm");
 
 const formStatus =
@@ -392,12 +392,12 @@ if (contactForm) {
     "submit",
     (event) => {
 
-      event.preventDefault();
+      event.preventDefault();*/
 
 
       /* HTML5 validation */
 
-      if (!contactForm.checkValidity()) {
+      /*if (!contactForm.checkValidity()) {
 
         contactForm.reportValidity();
 
@@ -439,7 +439,7 @@ if (contactForm) {
 
         return;
 
-      }
+      }*/
 
 
       /*
@@ -453,7 +453,7 @@ if (contactForm) {
       */
 
 
-      if (formStatus) {
+      /*if (formStatus) {
 
         formStatus.textContent =
           "Request prepared successfully. Connect this form to your email or backend service before production.";
@@ -463,7 +463,7 @@ if (contactForm) {
     }
   );
 
-}
+}*/
 
 
 /* =========================================================
