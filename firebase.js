@@ -18,8 +18,8 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
-// Form submission logic
-const form = document.getElementById("quoteForm");
+// Target form using your existing ID "contactForm"
+const form = document.getElementById("contactForm");
 const statusElement = document.getElementById("formStatus");
 
 if (form) {
@@ -27,15 +27,15 @@ if (form) {
     e.preventDefault();
     if (statusElement) statusElement.textContent = "Sending request...";
 
-    // Collect values safely without labels attached
+    // Extract values directly using input 'name' attributes
     const formData = {
-      name: document.getElementById("name")?.value.trim() || "",
-      email: document.getElementById("email")?.value.trim() || "",
-      business: document.getElementById("business")?.value.trim() || null,
-      website: document.getElementById("website")?.value.trim() || null,
-      type: document.getElementById("type")?.value || "",
-      budget: document.getElementById("budget")?.value || "",
-      description: document.getElementById("description")?.value.trim() || "",
+      name: form.elements["name"]?.value.trim() || "",
+      email: form.elements["email"]?.value.trim() || "",
+      business: form.elements["business"]?.value.trim() || null,
+      website: form.elements["website"]?.value.trim() || null,
+      type: form.elements["type"]?.value || "",
+      budget: form.elements["budget"]?.value || "",
+      description: form.elements["description"]?.value.trim() || "",
       createdAt: serverTimestamp()
     };
 
@@ -49,4 +49,5 @@ if (form) {
       if (statusElement) statusElement.textContent = "Failed to submit. Please try again.";
     }
   });
-  }
+}
+
