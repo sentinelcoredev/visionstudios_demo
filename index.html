@@ -35,6 +35,12 @@
       <a href="#reviews">Reviews</a>
       <a href="#faq">FAQ</a>
       <a href="#contact" class="nav-cta">Get a Quote <span>↗</span></a>
+      <select id="currency-select" class="nav-country">
+        <option value="INR" selected>India </option>
+        <option value="USD">United States </option>
+        <option value="EUR">Europe </option>
+        <option value="GBP">United Kingdom </option>
+      </select>
     </nav>
   </header>
 
@@ -143,8 +149,8 @@
           <div class="tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
         </article>
         <article class="project reveal delay-2">
-          <div class="project-screen calc"><div class="screen-label">UTILITY</div><div class="calc-display">₹ 17,000</div><div class="calc-bars"><i></i><i></i><i></i><i></i></div></div>
-          <div class="project-info"><div><span>Interactive Project</span><h3>Electrician Website</h3></div><a href="https://sentinelcoredev.github.io/electrician/" target="_blank" rel="noopener">Live Demo ↗</a></div>
+          <div class="project-screen calc"><div class="screen-label">UTILITY</div><div class="calc-display price-tag" data-inr="17000" data-usd="250" data-eur="230" data-gbp="200">₹ 17,000</div><div class="calc-bars"><i></i><i></i><i></i><i></i></div></div>
+          <div class="project-info"><div><span>Interactive Project-Ready to Sell</span><h3>Electrician Website</h3></div><a href="https://sentinelcoredev.github.io/electrician/" target="_blank" rel="noopener">Live Demo ↗</a></div>
           <p>An interactive project demonstrating dynamic input handling, calculations and interactive UI behavior along with real-world applications.</p>
           <div class="tags"><span>JavaScript</span><span>DOM</span><span>UI</span></div>
         </article>
@@ -184,14 +190,17 @@
             <label><input type="checkbox" data-price="2000"> Gallery</label>
             <label><input type="checkbox" data-price="1000"> Animations</label>
             <label><input type="checkbox" data-price="1500"> Calculator</label>
-            <label><input type="checkbox" data-price="1000"> Booking</label>
+            <label><input type="checkbox" data-price="2000"> Booking</label>
             <label><input type="checkbox" data-price="3000"> Custom JavaScript</label>
             <label><input type="checkbox" data-price="1000"> FAQ accordion</label>
+            <label><input type="checkbox" data-price="6000"> Integrations</label>
+            <label><input type="checkbox" data-price="5000"> Global pricing</label>
+            <label><input type="checkbox" data-price="5000"> Custom Animations</label>
           </div></div>
         </div>
         <aside class="estimate">
           <span>ESTIMATED STARTING PRICE</span>
-          <strong id="estimate">₹9,000</strong>
+          <strong id="estimate">₹10,000</strong>
           <div class="estimate-bar"><span id="estimateBar"></span></div>
           <p>This is an estimate, not a guaranteed quotation. Final pricing depends on pages, features, integrations, content, design requirements and revisions.</p>
           <a href="#contact" class="button button-primary">Request a Quote ↗</a>
@@ -205,9 +214,9 @@
         <p>Starting prices keep expectations realistic. Every project is different, because apparently websites refuse to fit neatly into three boxes.</p>
       </div>
       <div class="pricing-grid">
-        <article class="price-card reveal"><span>STARTER</span><h3>₹10,000<span>+</span></h3><p>For simple business websites.</p><ul><li>Responsive design</li><li>Core business pages</li><li>Modern styling</li><li>Basic interactions</li></ul><a href="#contact">Request a quote →</a></article>
-        <article class="price-card featured reveal delay-1"><div class="popular">MOST FLEXIBLE</div><span>BUSINESS</span><h3>₹20,000<span>+</span></h3><p>For businesses needing more pages and interactive features.</p><ul><li>Multi-page website</li><li>Custom interactions</li><li>Forms / integrations</li><li>More design refinement</li></ul><a href="#contact" class="button button-primary">Request a quote →</a></article>
-        <article class="price-card reveal delay-2"><span>CUSTOM</span><h3>₹35,000<span>+</span></h3><p>For advanced requirements.</p><ul><li>Complex functionality</li><li>Custom JavaScript</li><li>Special integrations</li><li>Project-specific scope</li></ul><a href="#contact">Discuss a project →</a></article>
+        <article class="price-card reveal"><span>STARTER</span><h3 class=price-tag data-inr="10000" data-usd="150" data-eur="150" data-gbp="120">₹10,000<span>+</span></h3><p>For simple business websites.</p><ul><li>Responsive design</li><li>Core business pages</li><li>Modern styling</li><li>Basic interactions</li></ul><a href="#contact">Request a quote →</a></article>
+        <article class="price-card featured reveal delay-1"><div class="popular" class=price-tag data-inr="20000" data-usd="300" data-eur="280" data-gbp="240">MOST FLEXIBLE</div><span>BUSINESS</span><h3 class=price-tag data-inr="20000" data-usd="300" data-eur="280" data-gbp="240">₹20,000<span>+</span></h3><p>For businesses needing more pages and interactive features.</p><ul><li>Multi-page website</li><li>Custom interactions</li><li>Forms / integrations</li><li>More design refinement</li></ul><a href="#contact" class="button button-primary">Request a quote →</a></article>
+        <article class="price-card reveal delay-2"><span>CUSTOM</span><h3 class=price-tag data-inr="35000" data-usd="525" data-eur="490" data-gbp="420">₹35,000<span>+</span></h3><p>For advanced requirements.</p><ul><li>Complex functionality</li><li>Custom JavaScript</li><li>Special integrations</li><li>Project-specific scope</li></ul><a href="#contact">Discuss a project →</a></article>
       </div>
     </section>
 
@@ -258,7 +267,7 @@
         <div><span class="section-kicker">10 / FAQ</span><h2>Questions, <em>answered.</em></h2></div>
       </div>
       <div class="faq-list reveal">
-        <details><summary>How much does a website cost?<span>+</span></summary><p>Starter projects begin from ₹10,000, business websites from ₹20,000, and advanced projects are quoted based on requirements.</p></details>
+        <details><summary>How much does a website cost?<span>+</span></summary><p>Starter projects begin from <span class="price-tag" data-inr="10000" data-usd="150" data-eur="150" data-gbp="120">₹10,000</span>, business websites from <span class="price-tag" data-inr="20000" data-usd="300" data-eur="300" data-gbp="250">₹20,000</span>, and advanced projects are quoted based on requirements.</p></details>
         <details><summary>How long does a website take?<span>+</span></summary><p>Time depends on scope, content, features and revisions. A simple site can move much faster than a complex custom build.</p></details>
         <details><summary>Do you build mobile-friendly websites?<span>+</span></summary><p>Yes. Responsive behavior across mobile, tablet and desktop is part of the design process.</p></details>
         <details><summary>Can you add custom features?<span>+</span></summary><p>Yes, where technically and commercially practical. Custom JavaScript interactions, calculators, forms and integrations can be scoped into a project.</p></details>
@@ -298,9 +307,9 @@
     </label>
     <label>Budget
       <select name="budget">
-        <option>₹10,000–₹20,000</option>
-        <option>₹20,000–₹30,000</option>
-        <option>₹30,000+</option>
+        <option class="price-tag" data-inr="10000" data-usd="150" data-eur="150" data-gbp="120">₹10,000–₹20,000</option>
+        <option class="price-tag" data-inr="20000" data-usd="300" data-eur="300" data-gbp="250">₹20,000–₹30,000</option>
+        <option class="price-tag" data-inr="30000" data-usd="450" data-eur="450" data-gbp="375">₹30,000+</option>
         <option>Not sure yet</option>
       </select>
     </label>
