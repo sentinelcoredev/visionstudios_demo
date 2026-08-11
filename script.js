@@ -699,3 +699,199 @@ window.addEventListener(
 
   }
 );
+/* =========================================================
+    CURRENCY EXCHANGE ENGINE
+   ========================================================= */
+const currencySymbols = {
+  INR: '₹',
+  USD: '$',
+  EUR: '€',
+  GBP: '£'
+};
+
+async function updateAllSitePrices() {
+  const selectedCurrency = document.getElementById('currency-select').value;
+  const symbol = currencySymbols[selectedCurrency] || '$';
+
+  // 1. Target ALL price tags on the page
+  const priceElements = document.querySelectorAll('.price-tag');
+
+  priceElements.forEach(el => {
+    // Check if custom regional price exists (e.g. data-usd="250")
+    const customPrice = el.getAttribute(`data-${selectedCurrency.toLowerCase()}`);
+
+    if (customPrice) {
+      // Use exact business price set in HTML
+      const formatted = parseInt(customPrice).toLocaleString();
+      const hasPlus = el.innerHTML.includes('+');
+      el.innerHTML = `${symbol}${formatted}${hasPlus ? '<span>+</span>' : ''}`;
+    }
+  });
+
+  // 2. Also update the Estimator
+  updateEstimatorPrice();
+}
+// Global function to calculate and update the estimator output
+function updateEstimatorPrice() {
+  const selectedCurrency = document.getElementById('currency-select').value;
+  const symbol = currencySymbols[selectedCurrency] || '$';
+  
+  // 1. Calculate your base estimator total in INR (Replace with your slider/checkbox logic)
+  let baseEstimateINR = 9000; // Example base starting price
+
+  // Multiply based on selected estimator options (e.g., page count, features)
+  const pagesInput = document.getElementById('pages-slider'); // example input
+  if (pagesInput) {
+    baseEstimateINR += parseInt(pagesInput.value) * 1500;
+  }
+
+  // 2. Define custom estimated starting rates per currency
+  const estimatorMultipliers = {
+    INR: 1,
+    USD: 0.015, // Custom multiplier so 9,000 INR = ~$135 -> $150
+    EUR: 0.014,
+    GBP: 0.012
+  };
+
+  const multiplier = estimatorMultipliers[selectedCurrency] || 1;
+  let finalEstimate = Math.round(baseEstimateINR * multiplier);
+
+  // Round output to clean numbers (e.g., nearest 10)
+  if (selectedCurrency !== 'INR') {
+    finalEstimate = Math.ceil(finalEstimate / 10) * 10;
+  }
+
+  // 3. Render output element (e.g. <strong>₹9,000</strong>)
+  const estimatorOutput = document.querySelector('#calculator output, .estimator-total');
+  if (estimatorOutput) {
+    estimatorOutput.innerText = `${symbol}${finalEstimate.toLocaleString()}`;
+  }
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const currencyDropdown = document.getElementById('currency-select');
+
+  if (currencyDropdown) {
+    // Update everything whenever dropdown value changes
+    currencyDropdown.addEventListener('change', updateAllSitePrices);
+  }
+
+  // Initial calculation on page load
+  updateAllSitePrices();
+});
+// --- CALCULATOR CONFIGURATION ---
+
+// Base price in INR for each website type
+const websiteTypePrices = {
+  landing: 10000,
+  small: 15000,
+  business: 20000,
+  custom: 25000
+};
+
+// Conversion config for currency dropdown
+const calculatorCurrencies = {
+  INR: { symbol: '₹', rate: 1, roundTo: 100 },
+  USD: { symbol: '$', rate: 0.0125, roundTo: 5 }, // e.g. ₹10,000 -> $125
+  EUR: { symbol: '€', rate: 0.0115, roundTo: 5 },
+  GBP: { symbol: '£', rate: 0.0098, roundTo: 5 }
+};
+
+function updateCalculator() {
+  // 1. Get Base Price from Active Website Type
+  const activeTypeBtn = document.querySelector('.choice-grid .choice.active');
+  const typeValue = activeTypeBtn ? activeTypeBtn.getAttribute('data-value') : 'small';
+  let totalINR = websiteTypePrices[typeValue] || 9000;
+
+  // 2. Handle Pages Slider & Label
+  const pagesInput = document.getElementById('pages');
+  const pagesOutput = document.getElementById('pagesValue');
+  const pageCount = pagesInput ? parseInt(pagesInput.value, 10) : 3;
+
+  if (pagesOutput) {
+    pagesOutput.innerText = `${pageCount} page${pageCount > 1 ? 's' : ''}`;
+  }
+
+  // Calculate extra cost per page beyond 1 (₹1,000 per extra page)
+  const extraPages = Math.max(0, pageCount - 1);
+  totalINR += extraPages * 1000;
+
+  // 3. Sum Selected Feature Checkboxes
+  const selectedFeatures = document.querySelectorAll('.feature-choices input[type="checkbox"]:checked');
+  selectedFeatures.forEach(checkbox => {
+    const featurePrice = parseFloat(checkbox.getAttribute('data-price')) || 0;
+    totalINR += featurePrice;
+  });
+
+  // 4. Convert Total to Selected Currency
+  const currencySelect = document.getElementById('currency-select');
+  const selectedCurrency = currencySelect ? currencySelect.value : 'INR';
+  const config = calculatorCurrencies[selectedCurrency] || calculatorCurrencies['INR'];
+
+  let convertedTotal = totalINR * config.rate;
+
+  if (config.roundTo > 1) {
+    convertedTotal = Math.ceil(convertedTotal / config.roundTo) * config.roundTo;
+  } else {
+    convertedTotal = Math.round(convertedTotal);
+  }
+
+  // 5. Update HTML Output
+  const estimateEl = document.getElementById('estimate');
+  if (estimateEl) {
+    estimateEl.innerText = `${config.symbol}${convertedTotal.toLocaleString()}`;
+  }
+
+  // 6. Update Visual Progress Bar (based on a max threshold of ₹50,000)
+  const estimateBar = document.getElementById('estimateBar');
+  if (estimateBar) {
+    const maxThreshold = 50000;
+    const fillPercent = Math.min(100, Math.round((totalINR / maxThreshold) * 100));
+    estimateBar.style.width = `${fillPercent}%`;
+  }
+}
+
+// --- ATTACH EVENT LISTENERS ---
+
+document.addEventListener('DOMContentLoaded', () => {
+  // 1. Handle Website Type Button Clicks
+  const choiceButtons = document.querySelectorAll('.choice-grid .choice');
+  choiceButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      // Remove active class from all buttons in grid
+      choiceButtons.forEach(btn => btn.classList.remove('active'));
+      
+      // Add active class to clicked button
+      button.classList.add('active');
+
+      // Auto-set slider to typical page count based on selection
+      const pagesInput = document.getElementById('pages');
+      const selectedType = button.getAttribute('data-value');
+    
+      updateCalculator();
+    });
+  });
+
+  // 2. Handle Page Range Slider Inputs
+  const pagesSlider = document.getElementById('pages');
+  if (pagesSlider) {
+    pagesSlider.addEventListener('input', updateCalculator);
+    pagesSlider.addEventListener('change', updateCalculator);
+  }
+
+  // 3. Handle Feature Checkbox Toggles
+  const featureCheckboxes = document.querySelectorAll('.feature-choices input[type="checkbox"]');
+  featureCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', updateCalculator);
+  });
+
+  // 4. Listen to Currency Selector Dropdown
+  const currencyDropdown = document.getElementById('currency-select');
+  if (currencyDropdown) {
+    currencyDropdown.addEventListener('change', updateCalculator);
+  }
+
+  // Initial Calculation on Page Load
+  updateCalculator();
+});
