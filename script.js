@@ -3,7 +3,9 @@
    Main JavaScript
    ========================================================= */
 
-
+/*For alerting about Nav-bar due to wrong size*/
+alert("You can zoom out for easier navigation");
+alert("Currencies can be changed from ₹ to $,€, and £ in navigation bar")
 /* =========================================================
    MOBILE NAVIGATION
    ========================================================= */
